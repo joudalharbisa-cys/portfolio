@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Joud Alharbi Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --bg: #050c15;
+    --bg-panel: #0b1826;
+    --bg-panel-2: #0f2033;
+    --line: rgba(125,211,252,0.14);
+    --line-strong: rgba(125,211,252,0.32);
+    --blue-pale: #bfe6fd;
+    --blue: #7dd3fc;
+    --blue-mid: #38bdf8;
+    --blue-deep: #0ea5e9;
+    --cyan: #67e8f9;
+    --text: #eaf4fc;
+    --text-muted: #8ba4bd;
+    --text-dim: #56728c;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', -apple-system, sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--blue-mid); color:#04121d; }
+
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.01em; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- background grid ---------- */
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 78%);
+    mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 78%);
+    opacity:0.55;
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(5,12,21,0.72);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+    transition:padding .3s ease;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:600; font-size:17px; }
+  .brand svg{ width:22px; height:22px; }
+  .nav-links{ display:flex; gap:34px; }
+  .nav-links a{
+    font-size:13.5px; color:var(--text-muted); font-family:'IBM Plex Mono';
+    position:relative; padding-bottom:4px; transition:color .2s ease;
+  }
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background:var(--blue-mid); transition:width .25s ease;
+  }
+  .nav-links a:hover, .nav-links a.active{ color:var(--blue-pale); }
+  .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+  .nav-status{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-dim); }
+  .dot{ width:7px; height:7px; border-radius:50%; background:#34d399; box-shadow:0 0 8px #34d399; animation:pulse 2s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.4;} }
+  @media (max-width:880px){ .nav-links, .nav-status{ display:none; } }
+
+  section{ position:relative; z-index:1; padding:120px 6vw 100px; max-width:1180px; margin:0 auto; }
+  .section-tag{ font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--blue-mid); letter-spacing:0.06em; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .section-tag::before{ content:''; width:16px; height:1px; background:var(--blue-mid); }
+  .section-title{ font-size:clamp(28px,3.4vw,40px); margin-bottom:16px; }
+  .section-sub{ color:var(--text-muted); max-width:560px; font-size:15.5px; margin-bottom:56px; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    padding-top:140px; padding-bottom:60px;
+  }
+  .hero-term{
+    font-family:'IBM Plex Mono'; font-size:14px; color:var(--blue-mid);
+    display:flex; gap:10px; margin-bottom:22px; align-items:center;
+  }
+  .cursor{ display:inline-block; width:8px; height:16px; background:var(--blue); animation:blink 1s steps(1) infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+  .hero h1{ font-size:clamp(40px,7vw,78px); line-height:1.02; margin-bottom:18px; }
+  .hero h1 span{ color:var(--blue); }
+  .hero-role{ font-family:'IBM Plex Mono'; color:var(--text-muted); font-size:16px; margin-bottom:28px; max-width:560px; }
+  .hero-cta{ display:flex; gap:16px; margin-bottom:64px; flex-wrap:wrap; }
+  .btn{
+    font-family:'IBM Plex Mono'; font-size:13.5px; padding:13px 26px; border-radius:2px;
+    border:1px solid var(--line-strong); transition:all .2s ease; cursor:pointer; background:none;
+  }
+  .btn-primary{ background:var(--blue-mid); color:#04121d; border-color:var(--blue-mid); font-weight:500; }
+  .btn-primary:hover{ background:var(--blue); box-shadow:0 0 24px rgba(56,189,248,0.35); }
+  .btn-ghost{ color:var(--blue-pale); }
+  .btn-ghost:hover{ border-color:var(--blue-pale); background:rgba(125,211,252,0.06); }
+
+  .stat-strip{
+    display:flex; flex-wrap:wrap; gap:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .stat{ flex:1; min-width:130px; padding:22px 24px; border-right:1px solid var(--line); }
+  .stat:last-child{ border-right:none; }
+  .stat-num{ font-family:'Space Grotesk'; font-size:30px; color:var(--blue-pale); font-weight:600; }
+  .stat-label{ font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--text-dim); margin-top:4px; text-transform:lowercase; }
+
+  /* ---------- about ---------- */
+  .about-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; }
+  @media (max-width:820px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-text p{ color:var(--text-muted); margin-bottom:16px; font-size:15.5px; }
+  .about-text strong{ color:var(--text); font-weight:600; }
+  .tag-cloud{ display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+  .tag{
+    font-family:'IBM Plex Mono'; font-size:12.5px; padding:7px 13px; border:1px solid var(--line-strong);
+    color:var(--blue-pale); border-radius:2px; background:rgba(56,189,248,0.05);
+  }
+  .panel{
+    background:linear-gradient(160deg,var(--bg-panel),var(--bg-panel-2));
+    border:1px solid var(--line); border-radius:6px; padding:28px;
+  }
+  .panel-row{ display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line); font-size:14px;}
+  .panel-row:last-child{ border-bottom:none; }
+  .panel-row span:first-child{ color:var(--text-dim); font-family:'IBM Plex Mono'; font-size:12.5px; }
+  .panel-row span:last-child{ color:var(--text); font-weight:500; }
+
+  /* ---------- certificates ---------- */
+  .cert-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:900px){ .cert-grid{ grid-template-columns:1fr; } }
+  .cert-card{
+    border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--bg-panel);
+    transition:border-color .25s ease, transform .25s ease; position:relative;
+  }
+  .cert-card:hover{ border-color:var(--line-strong); transform:translateY(-4px); }
+  .cert-card:has(img.cert-img)::after{
+    content:''; position:absolute; top:10px; right:10px; width:28px; height:28px; border-radius:50%;
+    background:rgba(5,12,21,0.65); border:1px solid var(--line-strong);
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237dd3fc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+    background-repeat:no-repeat; background-position:center; background-size:13px;
+    opacity:0; transition:opacity .2s ease; pointer-events:none;
+  }
+  .cert-card:has(img.cert-img):hover::after{ opacity:1; }
+  .cert-img{
+    aspect-ratio:4/3; width:100%; object-fit:cover; background:
+      radial-gradient(circle at 30% 20%, rgba(56,189,248,0.25), transparent 60%),
+      linear-gradient(150deg,var(--bg-panel-2),var(--bg));
+    display:flex; align-items:center; justify-content:center; position:relative; border-bottom:1px solid var(--line);
+  }
+  .cert-img[src]{ cursor:zoom-in; transition:filter .2s ease; }
+  .cert-img[src]:hover{ filter:brightness(1.08); }
+  .cert-img::before{
+    content:'ADD CERTIFICATE IMAGE'; position:absolute; bottom:10px; left:10px; right:10px;
+    font-family:'IBM Plex Mono'; font-size:9.5px; color:var(--text-dim); letter-spacing:0.05em;
+  }
+  .cert-body{ padding:22px; }
+  .cert-issuer{ font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--blue-mid); margin-bottom:6px; }
+  .cert-name{ font-size:17px; margin-bottom:10px; }
+  .cert-desc{ color:var(--text-muted); font-size:13.5px; margin-bottom:14px; }
+  .cert-date{ font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-dim); }
+
+  /* ---------- honors & awards ---------- */
+  .honor-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+  @media (max-width:820px){ .honor-grid{ grid-template-columns:1fr; } }
+  .honor-card{
+    position:relative; display:flex; gap:20px; align-items:flex-start;
+    padding:28px; border:1px solid var(--line); border-radius:6px; overflow:hidden;
+    background:linear-gradient(160deg,var(--bg-panel),var(--bg-panel-2));
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .honor-card:hover{ border-color:var(--line-strong); transform:translateY(-4px); }
+  .honor-card::before{
+    content:''; position:absolute; top:0; left:0; width:3px; height:100%;
+    background:linear-gradient(var(--blue-mid),transparent); opacity:0.7;
+  }
+  .honor-rank{
+    position:absolute; top:-14px; right:10px; font-family:'Space Grotesk'; font-size:72px; font-weight:700;
+    color:rgba(125,211,252,0.05); line-height:1; pointer-events:none; user-select:none;
+  }
+  .honor-badge{
+    flex-shrink:0; width:52px; height:52px; border-radius:50%; border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; color:var(--blue-mid); position:relative; z-index:1;
+    background:radial-gradient(circle at 35% 30%, rgba(56,189,248,0.18), transparent 70%);
+  }
+  .honor-badge svg{ width:23px; height:23px; }
+  .honor-content{ position:relative; z-index:1; flex:1; min-width:0; }
+  .honor-status{
+    font-family:'IBM Plex Mono'; font-size:10px; letter-spacing:0.08em; color:#34d399;
+    margin-bottom:9px; display:flex; align-items:center; gap:6px;
+  }
+  .honor-status::before{ content:''; width:5px; height:5px; border-radius:50%; background:#34d399; box-shadow:0 0 6px #34d399; }
+  .honor-name{ font-size:16.5px; margin-bottom:6px; }
+  .honor-meta{ font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--blue-mid); margin-bottom:10px; }
+  .honor-desc{ color:var(--text-muted); font-size:13.5px; }
+
+  /* ---------- experience ---------- */
+  .timeline{ border-left:1px solid var(--line-strong); padding-left:34px; position:relative; }
+  .tl-item{ position:relative; margin-bottom:44px; }
+  .tl-item:last-child{ margin-bottom:0; }
+  .tl-item::before{
+    content:''; position:absolute; left:-40px; top:5px; width:10px; height:10px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--blue-mid);
+  }
+  .tl-head{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  .tl-role{ font-size:19px; }
+  .tl-date{ font-family:'IBM Plex Mono'; font-size:12px; color:var(--blue-mid); }
+  .tl-org{ color:var(--text-muted); font-size:14px; margin-bottom:12px; }
+  .tl-list{ list-style:none; }
+  .tl-list li{ color:var(--text-muted); font-size:14.5px; padding-left:18px; position:relative; margin-bottom:7px; }
+  .tl-list li::before{ content:'›'; position:absolute; left:0; color:var(--blue-mid); }
+
+  /* ---------- projects ---------- */
+  .proj-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+  @media (max-width:820px){ .proj-grid{ grid-template-columns:1fr; } }
+  .proj-card{
+    border:1px solid var(--line); border-radius:6px; padding:26px; background:var(--bg-panel);
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .proj-card:hover{ border-color:var(--line-strong); transform:translateY(-4px); }
+  .proj-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+  .proj-icon{
+    width:38px; height:38px; border:1px solid var(--line-strong); border-radius:6px;
+    display:flex; align-items:center; justify-content:center; color:var(--blue-mid);
+  }
+  .proj-links{ display:flex; gap:14px; }
+  .proj-links a{ font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--text-dim); transition:color .2s ease; }
+  .proj-links a:hover{ color:var(--blue-pale); }
+  .proj-name{ font-size:18px; margin-bottom:8px; }
+  .proj-desc{ color:var(--text-muted); font-size:13.8px; margin-bottom:16px; }
+  .proj-tags{ display:flex; flex-wrap:wrap; gap:7px; }
+  .proj-tags span{ font-family:'IBM Plex Mono'; font-size:10.5px; padding:4px 9px; border:1px solid var(--line); color:var(--text-dim); border-radius:2px; }
+
+  /* ---------- events ---------- */
+  .event-list{ display:flex; flex-direction:column; border-top:1px solid var(--line); }
+  .event-row{
+    display:grid; grid-template-columns:110px 1fr auto; gap:20px; align-items:center;
+    padding:16px 4px; border-bottom:1px solid var(--line); transition:background .2s ease;
+  }
+  .event-row:hover{ background:rgba(56,189,248,0.04); }
+  .event-date{ font-family:'IBM Plex Mono'; font-size:12px; color:var(--blue-mid); }
+  .event-name{ font-size:15px; }
+  .event-org{ color:var(--text-dim); font-size:12.5px; margin-top:2px; }
+  .event-type{ font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--text-dim); border:1px solid var(--line); padding:5px 10px; border-radius:2px; white-space:nowrap; }
+  @media (max-width:640px){ .event-row{ grid-template-columns:1fr; gap:4px; } .event-type{ justify-self:start; margin-top:6px; } }
+
+  /* ---------- recommendations ---------- */
+  .rec-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+  @media (max-width:820px){ .rec-grid{ grid-template-columns:1fr; } }
+  .rec-card{ border:1px solid var(--line); border-radius:6px; padding:28px; background:var(--bg-panel); }
+  .rec-quote{ font-size:15px; color:var(--text); margin-bottom:20px; font-style:italic; line-height:1.7; }
+  .rec-quote::before{ content:'"'; color:var(--blue-mid); }
+  .rec-quote::after{ content:'"'; color:var(--blue-mid); }
+  .rec-foot{ display:flex; justify-content:space-between; align-items:center; }
+  .rec-person strong{ display:block; font-size:14px; }
+  .rec-person span{ font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--text-dim); }
+  .rec-link{ font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--blue-mid); border-bottom:1px solid var(--blue-mid); padding-bottom:2px; }
+
+  /* ---------- footer ---------- */
+  footer{ position:relative; z-index:1; border-top:1px solid var(--line); padding:56px 6vw 40px; text-align:center; }
+  footer h3{ font-size:38px; margin-bottom:18px; }
+  footer p{ color:var(--text-muted); margin-bottom:34px; font-size:17px; }
+  .foot-icons{ display:flex; justify-content:center; gap:30px; margin-bottom:46px; flex-wrap:wrap; }
+  .foot-icon-btn{ display:flex; flex-direction:column; align-items:center; gap:11px; }
+  .foot-icon-circle{
+    width:54px; height:54px; border-radius:50%; border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; color:var(--blue-mid);
+    background:radial-gradient(circle at 35% 30%, rgba(56,189,248,0.18), transparent 70%);
+    transition:all .25s ease;
+  }
+  .foot-icon-circle svg{ width:22px; height:22px; }
+  .foot-icon-btn:hover .foot-icon-circle{
+    border-color:var(--blue-pale); box-shadow:0 0 22px rgba(56,189,248,0.32);
+    transform:translateY(-4px); color:var(--blue-pale);
+  }
+  .foot-icon-label{ font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--text-muted); transition:color .2s ease; }
+  .foot-icon-btn:hover .foot-icon-label{ color:var(--blue-pale); }
+  .foot-bottom{ font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--text-dim); }
+
+  /* ---------- coming soon modal ---------- */
+  .cs-overlay{
+    position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center;
+    background:rgba(5,12,21,0.78); backdrop-filter:blur(6px); padding:24px;
+  }
+  .cs-overlay.open{ display:flex; }
+  .cs-box{
+    background:linear-gradient(160deg,var(--bg-panel),var(--bg-panel-2));
+    border:1px solid var(--line-strong); border-radius:8px; padding:36px 32px;
+    max-width:340px; width:100%; text-align:center; position:relative;
+    box-shadow:0 0 40px rgba(56,189,248,0.12);
+  }
+  .cs-icon{
+    width:46px; height:46px; border-radius:50%; border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; color:var(--blue-mid);
+    margin:0 auto 18px; background:radial-gradient(circle at 35% 30%, rgba(56,189,248,0.18), transparent 70%);
+  }
+  .cs-icon svg{ width:22px; height:22px; }
+  .cs-title{ font-size:18px; margin-bottom:8px; }
+  .cs-text{ color:var(--text-muted); font-size:13.5px; margin-bottom:22px; }
+  .cs-close{
+    font-family:'IBM Plex Mono'; font-size:12.5px; padding:10px 22px; border-radius:2px;
+    border:1px solid var(--line-strong); background:none; color:var(--blue-pale); cursor:pointer; transition:all .2s ease;
+  }
+  .cs-close:hover{ border-color:var(--blue-pale); background:rgba(125,211,252,0.06); }
+
+  /* ---------- image lightbox ---------- */
+  .lb-overlay{
+    position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center;
+    background:rgba(5,12,21,0.9); backdrop-filter:blur(6px); padding:40px 24px;
+  }
+  .lb-overlay.open{ display:flex; }
+  .lb-frame{ position:relative; max-width:min(90vw,700px); max-height:88vh; }
+  .lb-frame img{
+    display:block; max-width:100%; max-height:88vh; border-radius:8px;
+    border:1px solid var(--line-strong); box-shadow:0 0 60px rgba(56,189,248,0.18);
+  }
+  .lb-close{
+    position:absolute; top:-16px; right:-16px; width:36px; height:36px; border-radius:50%;
+    background:var(--bg-panel); border:1px solid var(--line-strong); color:var(--blue-pale);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s ease;
+  }
+  .lb-close:hover{ border-color:var(--blue-pale); background:rgba(125,211,252,0.08); }
+  .lb-close svg{ width:16px; height:16px; }
+  .lb-caption{ text-align:center; margin-top:16px; font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--text-dim); }
+
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-track{ background:var(--bg); }
+  ::-webkit-scrollbar-thumb{ background:var(--bg-panel-2); border-radius:4px; }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-mid)" stroke-width="1.6"><path d="M12 2l8 3.5v6c0 5-3.4 8.6-8 10.5-4.6-1.9-8-5.5-8-10.5v-6L12 2z"/><path d="M9 12l2 2 4-4" stroke="var(--blue-pale)"/></svg>
+    J. ALHARBI
+  </div>
+  <div class="nav-links">
+    <a href="#about" class="navlink">about</a>
+    <a href="#education" class="navlink">education</a>
+    <a href="#certs" class="navlink">certifications</a>
+    <a href="#experience" class="navlink">experience</a>
+    <a href="#volunteering" class="navlink">volunteering</a>
+    <a href="#projects" class="navlink">projects</a>
+    <a href="#honors" class="navlink">honors</a>
+    <a href="#events" class="navlink">events</a>
+    <a href="#recs" class="navlink">letters</a>
+    <a href="#contact" class="navlink">contact</a>
+  </div>
+  <div class="nav-status"><span class="dot"></span>SYSTEM SECURE</div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-term mono">
+    <span>&gt; whoami</span><span class="cursor"></span>
+  </div>
+  <h1>Joud Alharbi<br><span>Securing systems.</span> </h1>
+  <p class="hero-role mono">Cybersecurity Specialist </p>
+  <div class="hero-cta">
+
+ <a class="btn btn-primary" href="#contact">get in touch</a>
+    <a class="btn btn-ghost" href="JoudAlharbi_cv_2026.pdf" download>Download Resume ↓</a>
+  </div>
+
+  <div class="stat-strip">
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">certifications</div></div>
+    <div class="stat"><div class="stat-num">90+</div><div class="stat-label">hours volunteer work</div></div>
+    <div class="stat"><div class="stat-num">4+</div><div class="stat-label">projects</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Honors & awards</div></div>
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">events</div></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-tag mono">01 / ABOUT</div>
+  <h2 class="section-title">Profile overview</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm <strong>Joud Alharbi</strong>, A Cybersecurity Specialist with a growing background in Artificial Intelligence. I’m interested in the intersection of AI and cybersecurity—how AI can make cybersecurity stronger while also introducing new threats and vulnerabilities. As AI continues to shape the future of technology, I want to grow with it, contribute to it, and help make that future more secure.
+</p>
+      <p> Over the past few years, I’ve built hands on experience through 90+ hours of volunteer  work, 4+ projects, 3 professional certifications, 4 honors & award and participation in 12+ events, workshops, and competitions.
+.</p>
+      <p>What drives me is the desire to become the best I can be, continuously grow, and create meaningful value through my work. I’m always looking for opportunities to learn, challenge myself, and make a real impact.
+</p>
+      <div class="tag-cloud">
+    <span class="tag">Web development </span>
+        <span class="tag">Linux</span>
+        <span class="tag">Security Operations Center (SOC) </span>
+        <span class="tag">Risk Managment</span>
+   <span class="tag">Network Security</span>
+        <span class="tag">Threat Analysis</span>
+        <span class="tag">Artificial Intelligence </span>
+        <span class="tag">Leadership</span>
+    
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-row"><span>MAJOR</span><span>Cybersecurity</span></div>
+      <div class="panel-row"><span>FOCUS</span><span> SOC & Risk Managment & AI Security</span></div>
+      <div class="panel-row"><span>UNIVERSITY</span><span> Umm Al-Qura </span></div>
+      <div class="panel-row"><span>STATUS</span><span>Open to opportunities</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-tag mono">02 / EDUCATION</div>
+  <h2 class="section-title"> Education </h2>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-head">
+        <div class="tl-role">Bachelor of Science, Cybersecurity</div>
+        <div class="tl-date mono">2022 — 2026</div>
+      </div>
+      <div class="tl-org">Umm Al-Qura University · Saudi Arabia</div>
+      <ul class="tl-list">
+        <li>GPA 3.88 / 4.00</li>
+      
+      </ul>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-head">
+        <div class="tl-role">Artificial Intelligenc International Program</div>
+        <div class="tl-date mono">JUL 2025 — AUG 2025</div>
+      </div>
+      <div class="tl-org">The Education University of Hong Kong · Hong Kong</div>
+      <ul class="tl-list">
+<li> GPA 3.66/4 </li>
+        <li>Selected as one of the Top 10 students through a competitive application and interview process.Studied Artificial Intelligence, Deep Learning, and Computer Vision using Python, TensorFlow, and YOLOv8.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section id="certs">
+  <div class="section-tag mono">03 / CERTIFICATIONS</div>
+  <h2 class="section-title"> Certifications </h2>
+ 
+  <div class="cert-grid">
+
+    <div class="cert-card">
+      <img class="cert-img" src="security.jpg" alt="Security+">
+      <div class="cert-body">
+        <div class="cert-issuer mono">COMPTIA</div>
+        <div class="cert-name">Security+</div>
+        <div class="cert-desc">Validated foundational cybersecurity knowledge across security operations, risk management, network security, and incident response through a professional certification exam.</div>
+        <div class="cert-date mono">ISSUED SEPTEMBER 2026</div>
+      </div>
+    </div>
+<div class="cert-card">
+  <img class="cert-img" src="ejpt.png" alt="eJPT — Junior Penetration Tester">
+  <div class="cert-body">
+    <div class="cert-issuer mono">INE SECURITY</div>
+    <div class="cert-name">eJPT — Junior Penetration Tester</div>
+    <div class="cert-desc">Demonstrated practical penetration testing skills through hands-on labs covering reconnaissance, enumeration, exploitation, and web application security.</div>
+    <div class="cert-date mono">ISSUED June 2026</div>
+  </div>
+</div>
+
+    <div class="cert-card">
+      <img class="cert-img" src="eCDFP.jpg" alt="eCDFP — Certified Digital Forensics Professional">
+      <div class="cert-body">
+        <div class="cert-issuer mono">INE SECURITY</div>
+     <div class="cert-name">eCDFP — Certified Digital Forensics Professional</div>
+        <div class="cert-desc">Built practical digital forensics skills through hands-on training in evidence acquisition, analysis, investigation, and forensic techniques.</div>
+        <div class="cert-date mono">ISSUED May 2025</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-tag mono">04 / EXPERIENCE</div>
+  <h2 class="section-title">Experience</h2>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-head">
+        <div class="tl-role">Cybersecurity Committee Leader</div>
+        <div class="tl-date mono">MAR 2025 — AUG 2025</div>
+      </div>
+      <div class="tl-org">Computer Science Club · Umm Al-Qura University</div>
+      <ul class="tl-list">
+        <li>Planned and managed the semester schedule for cybersecurity events and activities.</li>
+        <li>Delivered cybersecurity boot camps and courses, helping students build practical knowledge.</li>
+        <li>Represented the Cybersecurity Department at major meetups by creating presentation content, speaking to students, and answering questions about the major.</li>
+        <li>Organized cybersecurity awareness campaigns and a graduation project exhibition to showcase students’ projects and achievements.</li>
+      </ul>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-head">
+        <div class="tl-role">Cybersecurity Internship Trainee</div>
+        <div class="tl-date mono">MAR 2025 — JUL 2025 · 5 MOS</div>
+      </div>
+      <div class="tl-org">Makkah Municipality · Makkah</div>
+      <ul class="tl-list">
+        <li>Gained exposure to network monitoring, vulnerability identification, security log analysis, and incident detection.</li>
+        <li>Applied cybersecurity concepts including access control, threat identification, and security best practices.</li>
+        <li>Contributed to security awareness activities and developed technical reporting skills.</li>
+      </ul>
+    </div>
+
+
+
+    <div class="tl-item">
+      <div class="tl-head">
+        <div class="tl-role">Professional Mentorship </div>
+        <div class="tl-date mono">AUG 2024 — DEC 2025</div>
+      </div>
+      <div class="tl-org">BSF Academy · Hybrid</div>
+      <ul class="tl-list">
+        <li>Selected to participate in a professional development program designed to prepare outstanding students for the workforce.</li>
+        <li>Developed communication, teamwork, leadership, problem-solving, and time-management skills through mentorship and professional development.</li>
+        <li>Gained practical insights from industry professionals into workplace expectations and career development.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section id="volunteering">
+  <div class="section-tag mono">05 / VOLUNTEERING</div>
+  <h2 class="section-title">Volunteering</h2>
+
+  <div class="timeline">
+
+<div class="tl-item">
+  <div class="tl-head">
+    <div class="tl-role">Volunteer</div>
+    <div class="tl-date mono">90+ HOURS</div>
+  </div>
+  <div class="tl-org">Umm Al-Qura University · Makkah</div>
+  <ul class="tl-list">
+    <li>Contributed 90+ hours of volunteer work supporting university activities, student events, and community initiatives.</li>
+    <li>Developed practical skills in teamwork, communication, organization, and leadership through hands-on involvement.</li>
+  </ul>
+</div>
+
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-tag mono">06 / PROJECTS</div>
+  <h2 class="section-title">Selected projects</h2>
+
+
+  <div class="proj-grid">
+
+    <!-- REVEAL -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <div class="proj-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 2l8 3.5v6c0 5-3.4 8.6-8 10.5-4.6-1.9-8-5.5-8-10.5v-6L12 2z"/>
+          </svg>
+        </div>
+        <div class="proj-links">
+          <a href="#" class="coming-soon">GitHub ↗</a>
+          <a href="#" class="coming-soon" target="_blank">PDF ↗</a>
+          <a href="https://x.com/REVEAL_2026">X ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-name">REVEAL</div>
+      <div class="proj-desc">
+        Developed the first specialized dataset of 10,000 AI generated web code samples and the first tool built to detect vulnerabilities within AI generated code. Analyzed code from five LLMs to advance security assessment for AI-generated code.
+      </div>
+      <div class="proj-tags">
+        <span>AI Security</span>
+        <span>LLMs</span>
+    <span>research</span>
+        <span>Vulnerability Detection</span>
+        <span>Dataset Development</span>
+        <span>Snyk Code</span>
+      </div>
+    </div>
+
+    <!-- Cryptography -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <div class="proj-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>
+          </svg>
+        </div>
+        <div class="proj-links">
+          <a href="https://jix17345.github.io/Simple-crypto-web/cipher">Web Demo ↗</a>
+          <a href="project2.pdf" target="_blank">PDF ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-name">Cryptographic Algorithm Design</div>
+      <div class="proj-desc">
+        Designed and implemented a custom encryption algorithm from scratch using Java. Analyzed its key space, security, vulnerabilities, and potential attacks, with a web interface demonstrating its functionality.
+      </div>
+      <div class="proj-tags">
+        <span>Java</span>
+        <span>Cryptography</span>
+        <span>Encryption</span>
+        <span>Security Analysis</span>
+      </div>
+    </div>
+
+    <!-- Exploit Development -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <div class="proj-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+        </div>
+        <div class="proj-links">
+          <a href="project3.pdf" target="_blank">PDF ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-name">Exploit Development</div>
+      <div class="proj-desc">
+        Developed vulnerable C programs demonstrating stack and heap overflows and format string vulnerabilities. Created Python exploits and used GDB to analyze memory and test security mitigations.
+      </div>
+      <div class="proj-tags">
+        <span>C</span>
+        <span>Python</span>
+        <span>GDB</span>
+        <span>Exploit Development</span>
+      </div>
+    </div>
+
+    <!-- Secure Web Application -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <div class="proj-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="4" y="4" width="16" height="16"/>
+            <path d="M4 9h16M9 9v11"/>
+          </svg>
+        </div>
+        <div class="proj-links">
+          <a href="project4.pdf" target="_blank">PDF ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-name">Secure Web Application</div>
+      <div class="proj-desc">
+        Designed and developed a secure web application using STRIDE and DREAD threat modeling. Implemented CSP, bcrypt, CSRF protection, RBAC, and SQL injection prevention.
+      </div>
+      <div class="proj-tags">
+        <span>PHP</span>
+        <span>SQL</span>
+        <span>STRIDE</span>
+    <span>Threat Modeling</span>
+        <span>OWASP</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+<section id="honors">
+  <div class="section-tag mono">07 / HONORS &amp; AWARDS</div>
+  <h2 class="section-title">Honors &amp; awards</h2>
+
+  <div class="honor-grid">
+
+    <div class="honor-card">
+      <div class="honor-rank">01</div>
+      <div class="honor-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="6"/>
+          <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>
+        </svg>
+      </div>
+      <div class="honor-content">
+        <div class="honor-status mono">AWARDED</div>
+        <div class="honor-name">Dean's Honour List</div>
+        <div class="honor-meta mono">UQU · EXCELLENCE IN EXTRACURRICULAR ACTIVITIES</div>
+        <div class="honor-desc">
+          Recognized on the Dean's Honour List for excellence and outstanding involvement in extracurricular activities.
+        </div>
+      </div>
+    </div>
+
+    <div class="honor-card">
+      <div class="honor-rank">02</div>
+      <div class="honor-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="6"/>
+          <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>
+        </svg>
+      </div>
+      <div class="honor-content">
+        <div class="honor-status mono">1ST PLACE</div>
+        <div class="honor-name">Your Project in 3 Minutes</div>
+        <div class="honor-meta mono">COLLEGE LEVEL · 80 PROJECTS · 6 MAJORS</div>
+        <div class="honor-desc">
+          Won first place at the college level among 80 projects across six academic majors.
+        </div>
+      </div>
+    </div>
+
+    <div class="honor-card">
+      <div class="honor-rank">03</div>
+      <div class="honor-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="6"/>
+          <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>
+        </svg>
+      </div>
+      <div class="honor-content">
+        <div class="honor-status mono">1ST PLACE</div>
+        <div class="honor-name">Best Graduation Project Poster</div>
+        <div class="honor-meta mono">CYBERSECURITY DEPARTMENT · 19 PROJECTS</div>
+        <div class="honor-desc">
+          Awarded first place for the best graduation project poster among 19 cybersecurity projects.
+        </div>
+      </div>
+    </div>
+
+    <div class="honor-card">
+      <div class="honor-rank">04</div>
+      <div class="honor-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="6"/>
+          <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>
+        </svg>
+      </div>
+      <div class="honor-content">
+        <div class="honor-status mono">EXCELLENCE BADGE</div>
+        <div class="honor-name">Jahiziyah Excellence Badge</div>
+        <div class="honor-meta mono">ETEC · NATIONAL CYBERSECURITY AUTHORITY</div>
+        <div class="honor-desc">
+          Recognized for outstanding performance in the Cybersecurity readiness assessment.        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="events">
+  <div class="section-tag mono">08 / EVENTS</div>
+  <h2 class="section-title">Conferences, workshops & competitions</h2>
+  <p class="section-sub">12+ events, competitions, workshops, and industry activities.</p>
+
+  <div class="event-list">
+
+    <!-- 2026 -->
+    <div class="event-row">
+      <div class="event-date mono">2026</div>
+      <div>
+        <div class="event-name">Graduation Speech</div>
+        <div class="event-org">Umm Al-Qura University — Graduation Speaker</div>
+        <div class="event-desc">
+          Delivered a graduation speech at the closing ceremony of the Cybersecurity Department, sharing my journey, achievements, and success story.
+        </div>
+      </div>
+      <div class="event-type">Speaker</div>
+    </div>
+
+    <!-- 2025 -->
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">KAUST Academy — Cybersecurity</div>
+        <div class="event-org">KAUST Academy — Phases 1-3 Participant</div>
+        <div class="event-desc">
+          Completed intensive cybersecurity training covering cryptography, web security, network security, penetration testing, digital forensics, and social engineering.
+        </div>
+      </div>
+      <div class="event-type">Program</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">GOSH7 Hackathon</div>
+        <div class="event-org">Global Occupational Safety & Health Conference — Team Lead · Top 30 / 400+ Teams - Presenter</div>
+        <div class="event-desc">
+          Led a team through the hackathon, developed and pitched our solution, and presented it to global experts and investors after being selected among the Top 30 teams.
+        </div>
+      </div>
+      <div class="event-type">Hackathon</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">Cybersecurity Majors Meetup</div>
+        <div class="event-org">Umm Al-Qura University — Speaker & Department Representative</div>
+        <div class="event-desc">
+          Chosen to represented the Cybersecurity Department, created presentation content and speaking with new students about the major, university experience, and career opportunities.
+        </div>
+      </div>
+      <div class="event-type">Speaker</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">Jada Thon Hackathon</div>
+        <div class="event-org">Jada30 & Social Development Bank — Team Leader · 1 of 22 Selected Teams - Presenter </div>
+        <div class="event-desc">
+          Contributed to developing a smart application providing real-time guidance and ritual tracking for pilgrims and visitors.
+        </div>
+      </div>
+      <div class="event-type">Hackathon</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">Health & Safety Hackathon — Hajj 1446</div>
+        <div class="event-org">Forum of Health & Safety in Hajj — Team Leader - Presenter </div>
+        <div class="event-desc">
+          Worked with the Quick React team to develop innovative solutions focused on improving safety and well-being for pilgrims during Hajj.
+        </div>
+      </div>
+      <div class="event-type">Hackathon</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">Cybersecurity CTF Bootcamp</div>
+        <div class="event-org">Umm Al-Qura University </div>
+        <div class="event-desc">
+           Organized and delivered a hands on CTF bootcamp covering cryptography, web exploitation, and digital forensics through practical challenges.
+        </div>
+      </div>
+      <div class="event-type">Organizer & Instructor</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">Red Team vs. Blue Team Discussion</div>
+        <div class="event-org">Cyber Guard Club </div>
+        <div class="event-desc">
+        Invited to Join a cybersecurity discussion to share experiences, explain Red Team and Blue Team career paths, and answer questions from attendees.
+        </div>
+      </div>
+      <div class="event-type">Panel Guest Speaker</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">Professional Certifications Introduction</div>
+        <div class="event-org">Umm Al-Qura University — eCDFP Presenter</div>
+        <div class="event-desc">
+          Presented my eCDFP certification experience and shared insights into professional cybersecurity certifications with students.
+        </div>
+      </div>
+      <div class="event-type">Presenter</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">Family Protection & Digital Skills for Children</div>
+        <div class="event-org">Yosr Association — Encryption & Privacy Booth Designer</div>
+        <div class="event-desc">
+          Designed and delivered an Encryption & Privacy booth to introduce children and families to basic digital privacy and security concepts.
+        </div>
+      </div>
+      <div class="event-type">Volunteer</div>
+    </div>
+
+    <div class="event-row">
+      <div class="event-date mono">2025</div>
+      <div>
+        <div class="event-name">Intellectual Property Ambassadors Program</div>
+        <div class="event-org">Umm Al-Qura University & Saudi Authority for Intellectual Property — Participant</div>
+       
+
+
+
+
+<div class="event-desc">
+  Served as an Intellectual Property Ambassador, raising awareness about intellectual property and sharing its importance with students and the wider community.
+</div>
+
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<section id="recs">
+  <div class="section-tag mono">09 / RECOMMENDATIONS</div>
+  <h2 class="section-title">Letters of recommendation</h2>
+  <p class="section-sub">What mentors, professors, and supervisors say.</p>
+
+  <div class="rec-grid">
+
+<div class="rec-card">
+  <div class="rec-quote">
+    Joud distinguished herself through her dedication, discipline, creativity, and excellent planning skills. She is highly responsible, hardworking, and consistently delivers high-quality work.
+  </div>
+  <div class="rec-foot">
+    <div class="rec-person">
+      <strong>Dr. Sabreen Ahmadjee</strong>
+      <span>Assistant Professor, Cybersecurity Department</span>
+    </div>
+    <a class="rec-link" href="letter1.pdf" target="_blank">Read letter ↗</a>
+  </div>
+</div>
+
+<div class="rec-card">
+  <div class="rec-quote">
+    Joud has proudly represented the Cybersecurity Department in several events and activities, demonstrating her leadership, confidence, and professionalism in different settings.
+  </div>
+  <div class="rec-foot">
+    <div class="rec-person">
+      <strong>Dr. Areej Althubaity</strong>
+      <span>Assistant Professor, Cybersecurity Department</span>
+    </div>
+    <a class="rec-link" href="letter2.pdf" target="_blank">Read letter ↗</a>
+  </div>
+</div>
+
+<div class="rec-card">
+  <div class="rec-quote">
+    “Beyond her academic performance, Ms. Alharbi stood out for her confidence.
+  </div>
+  <div class="rec-foot">
+    <div class="rec-person">
+      <strong>Dr. Shoroug Alansari </strong>
+      <span>Assistant Professor, Cybersecurity Department</span>
+    </div>
+    <a class="rec-link" href="letter3.pdf" target="_blank">Read letter ↗</a>
+  </div>
+</div>
+</div> </section>
+
+
+<footer id="contact">
+  <div class="section-tag mono" style="justify-content:center;">10 / CONTACT</div>
+  <h3>Let's talk security.</h3>
+  <p>Open to internships, entry-level roles, and collaboration on AI-security projects.</p>
+  <div class="foot-icons">
+    <a href="mailto:joudalharbi.sa@gmail.com" class="foot-icon-btn">
+      <span class="foot-icon-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+      </span>
+      <span class="foot-icon-label">Email</span>
+    </a>
+    <a href="https://www.linkedin.com/in/joud-alharbi-344224272/" target="_blank" class="foot-icon-btn">
+      <span class="foot-icon-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </span>
+      <span class="foot-icon-label">LinkedIn</span>
+    </a>
+    <a href="#" class="coming-soon foot-icon-btn" target="_blank">
+      <span class="foot-icon-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 1.5 5 1.5 5 1.5c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 8.5c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+      </span>
+      <span class="foot-icon-label">GitHub</span>
+    </a>
+    <a href="JoudAlharbi_cv_2026.pdf" download class="foot-icon-btn">
+      <span class="foot-icon-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </span>
+      <span class="foot-icon-label">Resume</span>
+    </a>
+  </div>
+  <div class="foot-bottom mono"> 2026 Joud Alharbi</div>
+</footer>
+
+<div class="cs-overlay" id="csOverlay">
+  <div class="cs-box">
+    <div class="cs-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+    </div>
+    <div class="cs-title">Coming soon</div>
+    <div class="cs-text">This link isn't live yet — check back shortly.</div>
+    <button class="cs-close" id="csClose">Close</button>
+  </div>
+</div>
+
+<div class="lb-overlay" id="lbOverlay">
+  <div class="lb-frame">
+    <img id="lbImg" src="" alt="">
+    <button class="lb-close" id="lbClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="lb-caption" id="lbCaption"></div>
+  </div>
+</div>
+
+<script>
+  // coming-soon modal
+  const csOverlay = document.getElementById('csOverlay');
+  const csClose = document.getElementById('csClose');
+  document.querySelectorAll('a.coming-soon').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      csOverlay.classList.add('open');
+    });
+  });
+  csClose.addEventListener('click', () => csOverlay.classList.remove('open'));
+  csOverlay.addEventListener('click', e => { if (e.target === csOverlay) csOverlay.classList.remove('open'); });
+
+  // certificate image lightbox
+  const lbOverlay = document.getElementById('lbOverlay');
+  const lbImg = document.getElementById('lbImg');
+  const lbCaption = document.getElementById('lbCaption');
+  const lbClose = document.getElementById('lbClose');
+  document.querySelectorAll('img.cert-img[src]').forEach(img => {
+    img.addEventListener('click', () => {
+      lbImg.src = img.getAttribute('src');
+      lbImg.alt = img.getAttribute('alt') || '';
+      lbCaption.textContent = img.getAttribute('alt') || '';
+      lbOverlay.classList.add('open');
+    });
+  });
+  lbClose.addEventListener('click', () => lbOverlay.classList.remove('open'));
+  lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) lbOverlay.classList.remove('open'); });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      csOverlay.classList.remove('open');
+      lbOverlay.classList.remove('open');
+    }
+  });
+
+  // scroll-spy nav highlight
+  const links = document.querySelectorAll('.navlink');
+  const sections = [...links].map(l => document.querySelector(l.getAttribute('href')));
+  window.addEventListener('scroll', () => {
+    let idx = sections.findIndex((s,i) => {
+      const r = s.getBoundingClientRect();
+      return r.top <= 120 && r.bottom > 120;
+    });
+    links.forEach(l => l.classList.remove('active'));
+    if (idx >= 0) links[idx].classList.add('active');
+  });
+
+  // hero typing effect — single orchestrated intro moment
+  const line = document.querySelector('.hero-term');
+  const full = "> whoami";
+  let i = 0;
+  const cursorEl = line.querySelector('.cursor');
+  const textNode = document.createElement('span');
+  line.insertBefore(textNode, cursorEl);
+  function type(){
+    if(i <= full.length){
+      textNode.textContent = full.slice(0,i);
+      i++;
+      setTimeout(type, 55);
+    }
+  }
+  type();
+</script>
+
+</body>
+</html>
